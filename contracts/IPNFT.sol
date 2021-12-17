@@ -16,6 +16,7 @@ contract IPNFT is ERC721("IP NFT", "IPNFT"), Ownable {
     struct Meta {
         uint256 musicId;
         uint256 gain;
+        uint256 createdEpoch;
         uint256 lastUpdatedEpoch;
     }
 
@@ -70,6 +71,7 @@ contract IPNFT is ERC721("IP NFT", "IPNFT"), Ownable {
     ) public onlyOwner {
         _meta[tokenId].musicId = musicId_;
         _meta[tokenId].gain = gain_;
+        _meta[tokenId].createdEpoch = epoch;
         _meta[tokenId].lastUpdatedEpoch = epoch;
 
         _mint(to, tokenId);
@@ -84,10 +86,17 @@ contract IPNFT is ERC721("IP NFT", "IPNFT"), Ownable {
         _meta[tokenId].lastUpdatedEpoch = epoch;
     }
 
+    // /**
+    //  * @dev Update current epoch.
+    //  */
+    // function updateEpoch() public onlyOwner {
+    //     epoch++;
+    // }
+
     /**
      * @dev Update current epoch.
      */
-    function updateEpoch() public onlyOwner {
-        epoch++;
+    function setEpoch(uint256 epoch_) public onlyOwner {
+        epoch = epoch_;
     }
 }
