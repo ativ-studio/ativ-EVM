@@ -25,6 +25,8 @@ contract IPNFT is ERC721("IP NFT", "IPNFT"), Ownable {
     /// @dev Current epoch.
     uint256 public epoch;
 
+    address dead = address(0x000000000000000000000000000000000000dEaD);
+
     /// @dev MasterChef address.
     address public masterChef;
 
@@ -75,6 +77,29 @@ contract IPNFT is ERC721("IP NFT", "IPNFT"), Ownable {
         _meta[tokenId].lastUpdatedEpoch = epoch;
 
         _mint(to, tokenId);
+    }
+
+    function migrateFrom(
+        address to,
+        uint256 tokenId,
+        uint256 musicId_,
+        uint256 gain_
+    ) public onlyOwner {
+        _meta[tokenId].musicId = musicId_;
+        _meta[tokenId].gain = gain_;
+        _meta[tokenId].createdEpoch = epoch;
+        _meta[tokenId].lastUpdatedEpoch = epoch;
+
+        _mint(to, tokenId);
+    }
+
+    function migrateTo(
+        address from,
+        uint256 tokenId
+    ) public onlyOwner {
+        delete _meta[tokenId];
+
+        _transfer(from, dead, tokenId);
     }
 
     /**
