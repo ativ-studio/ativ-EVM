@@ -47,7 +47,7 @@ Mint NFT with amount of `musicId_` and `gain_`.
 
 Update `lastUpdatedEpoch` of `tokenId`.
 
-### `updateEpoch()` (public)
+### `setEpoch(uint256 epoch_)` (public)
 
 
 
